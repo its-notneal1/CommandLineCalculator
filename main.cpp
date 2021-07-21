@@ -78,7 +78,7 @@ Return types:
 1 String function
 **********************************************/
 int checkFunctionType(std::string userInput) {
-    if(isDigit(userInput[0]) || userInput[0] == '(') return 0;
+    if(isDigit(userInput[0]) || userInput[0] == '(' || userInput[0] == '-') return 0;
     else if(isLetter(userInput[0])) return 1;
     else return -1;
 }
@@ -115,11 +115,12 @@ do not pop stack
 int isPrecedence(const LStack<char> &operatorStack, char currentOperator) {
     if(operatorStack.isEmpty()) return -1;
     char previousOperator = operatorStack.getTop();
-    if(currentOperator == previousOperator) return 1; // fix this
+    if(currentOperator == previousOperator) return 1; 
     switch(previousOperator) {
         case('('):
             return -1; // do nothing special case
         case('^'):
+            if(currentOperator == '(') return -1;
             return 0; // 2nd most likely to precede so will return 0 
         case('*'):
         case('/'):
@@ -178,6 +179,7 @@ bool convertInfixToPostfix(std::string userInput, LQueue<std::string> &postfixQu
     while(!operatorStack.isEmpty()) {
         postfixQueue.addRear(convCharToString(operatorStack.pop()));
     }
+    // postfixQueue.displayAll();
     return true;
 }
 
@@ -254,10 +256,9 @@ std::string doMath(std::string operand1_Str, std::string operand2_Str, int opera
             res = operand1_Int % operand2_Int;
             break;
         case(5):
-            std::cout << operand1_Int << "^" << operand2_Int << std::endl;
+            res = 1;
             for(long int i = 0; i < operand2_Int; i++) {
-                long int original = operand1_Int;
-                res = operand1_Int * original;
+                res *= operand1_Int;
             }
             break;
     } 

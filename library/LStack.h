@@ -97,7 +97,7 @@ Pop the top element of the stack
 template<class T>
 T LStack<T>::pop() {
     if(isEmpty()) {
-        std::cout << "Error: Invalid Expression" << std::endl;
+        std::cout << "Stack Underflow" << std::endl;
         throw stackUnderflow();
         exit(1);
     }
